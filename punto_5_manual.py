@@ -21,12 +21,12 @@ y_train = np.array([0, 1, 1, 0, 1, 1, 0, 0, 1, 1])
 
 print("Datos de entrenamiento:")
 print(pd.DataFrame(X_train, columns=["Síntoma1", "Síntoma2", "Síntoma3", "Síntoma4"]))
-print("\nEtiquetas (y_train):", y_train)
+print("\nEtiquetas/Salidas (y_train):", y_train)
 
 # -------------------------------------
 # Definición manual de centros
 # -------------------------------------
-centros = np.array([
+""" centros = np.array([
     [1.3, 0.3, 0.8, 1.4],
     [1.1, 0.2, 0.4, 1.2],
     [0.9, 0.5, 1.0, 0.7],
@@ -35,10 +35,14 @@ centros = np.array([
     [1.1, 0.2, 0.4, 1.2],
     [1.3, 0.3, 0.8, 1.4],
     [1.1, 0.2, 0.4, 1.2]
-])
+]) """
+
+
+# Ejemplo de uso
+centros = np.random.uniform(low=0.0001, high=2.0, size=(8, 4))
 
 print("\nCentros radiales:")
-print(pd.DataFrame(centros))
+print(pd.DataFrame(centros, columns=["X1", "X2", "X3", "X4"]))
 
 # -------------------------------------
 # Calcular distancias y activaciones FA = d² · ln(d)
