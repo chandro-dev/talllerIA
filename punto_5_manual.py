@@ -19,6 +19,10 @@ X_train = np.array([
 ])
 y_train = np.array([0, 1, 1, 0, 1, 1, 0, 0, 1, 1])
 
+print("Datos de entrenamiento:")
+print(pd.DataFrame(X_train, columns=["Síntoma1", "Síntoma2", "Síntoma3", "Síntoma4"]))
+print("\nEtiquetas (y_train):", y_train)
+
 # -------------------------------------
 # Definición manual de centros
 # -------------------------------------
@@ -27,25 +31,35 @@ centros = np.array([
     [1.1, 0.2, 0.4, 1.2],
     [0.9, 0.5, 1.0, 0.7],
     [1.5, 0.3, 0.6, 1.3],
-        [1.3, 0.3, 0.8, 1.4],
+    [1.3, 0.3, 0.8, 1.4],
     [1.1, 0.2, 0.4, 1.2],
-        [1.3, 0.3, 0.8, 1.4],
+    [1.3, 0.3, 0.8, 1.4],
     [1.1, 0.2, 0.4, 1.2]
 ])
+
+print("\nCentros radiales:")
+print(pd.DataFrame(centros))
 
 # -------------------------------------
 # Calcular distancias y activaciones FA = d² · ln(d)
 # -------------------------------------
 distancias = np.sqrt(np.sum((X_train[:, np.newaxis] - centros) ** 2, axis=2))
+print("\nDistancias euclidianas (forma X vs centros):")
+print(np.round(distancias, 4))
 
 with np.errstate(divide='ignore', invalid='ignore'):
     Phi = distancias ** 2 * np.log(distancias)
-    Phi[np.isnan(Phi)] = 0.0  # evitar log(0)
+    Phi[np.isnan(Phi)] = 0.0
+
+print("\nMatriz Phi (función de activación logarítmica):")
+print(np.round(Phi, 4))
 
 # -------------------------------------
 # Entrenamiento: resolver pesos W
 # -------------------------------------
 W = pinv(Phi).dot(y_train)
+print("\nPesos W calculados:")
+print(np.round(W, 4))
 
 # -------------------------------------
 # Diagnóstico para una entrada personalizada
@@ -61,7 +75,7 @@ valor_predicho = phi_ejemplo.dot(W)
 diagnostico = 1 if valor_predicho > 0.5 else 0
 
 sintomas = ["Dolor de cabeza", "Fiebre", "Tos", "Dolor de rodilla"]
-print("Síntomas ingresados:")
+print("\nSíntomas ingresados:")
 for i, val in enumerate(entrada_ejemplo[0]):
     print(f"  {sintomas[i]}: {'Sí' if val == 1 else 'No'}")
 
